@@ -30,7 +30,14 @@ from TechVJ.bot.clients import initialize_clients
 
 ppath = "plugins/*.py"
 files = glob.glob(ppath)
-TechVJBot.start()
+import time
+from pyrogram.errors import FloodWait
+try:
+    TechVJBot.start()
+except FloodWait as e:
+    print(f"Flood wait {e.value} seconds")
+    time.sleep(e.value + 10)
+    TechVJBot.start()
 loop = asyncio.get_event_loop()
 
 
@@ -96,5 +103,6 @@ if __name__ == '__main__':
         loop.run_until_complete(start())
     except KeyboardInterrupt:
         logging.info('Service Stopped Bye 👋')
+
 
 
